@@ -17,7 +17,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\..\..\..\Documents\GitHub\flixel" />
+    <class path="flixel" />
   </classpaths>
   <!-- Build options -->
   <build>
