@@ -15,6 +15,8 @@ package com.rotate.helpers
 	{
 		private static var save:FlxSave;
 		
+		private static var kongregate:Boolean = true;
+		
 		public function ProgressHandler() 
 		{
 			
@@ -22,7 +24,8 @@ package com.rotate.helpers
 		
 		public static function init():void
 		{
-			FlxKongregate.init(apiHasLoaded);
+			if (kongregate)
+				FlxKongregate.init(apiHasLoaded);
 			save = new FlxSave();
 			if(save.bind("Rotate"))
 			{
@@ -59,8 +62,11 @@ package com.rotate.helpers
 		public static function gotNormalPlayScore(score:int):Boolean {
 			if (score < 0)
 				score = 0;
-			FlxKongregate.submitStats("HighScoreNormal", score);
-			FlxKongregate.submitStats("GameComplete", 1);
+			if (kongregate) {
+				FlxKongregate.submitStats("HighScoreNormal", score);
+				FlxKongregate.submitStats("GameComplete", 1);
+			}
+			
 			if (score > save.data.highScoreNormal) {
 				save.data.highScoreNormal = score;
 				return true;
@@ -74,8 +80,12 @@ package com.rotate.helpers
 		public static function gotMasterPlayScore(score:int):Boolean {
 			if (score < 0)
 				score = 0;
-			FlxKongregate.submitStats("HighScoreMaster", score);
-			FlxKongregate.submitStats("MasterComplete", 1);
+				
+			if (kongregate) {
+				FlxKongregate.submitStats("HighScoreMaster", score);
+				FlxKongregate.submitStats("MasterComplete", 1);			
+			}
+			
 			if (score > save.data.highScoreMaster) {
 				save.data.highScoreMaster = score;
 				return true;

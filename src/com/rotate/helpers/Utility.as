@@ -17,7 +17,7 @@ package com.rotate.helpers
 		public static var MAPOFFSETY:int = (480 - 5 * BLOCKSIZE) / 2;
 		public static var MAPOFFSETX:int = 640 - 5 * BLOCKSIZE - ((480 - 5 * BLOCKSIZE) / 2);
 		
-		public static var MASTERLEVELTIME:Number = 50;
+		public static var MASTERLEVELTIME:Number = 20;
 		public static var MASTERLEVELCOUNT:int = 40;
 		
 		[Embed(source = "../data/facebook_button.png")] public static var ImgFacebook:Class;
@@ -155,6 +155,16 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
+			// two fish
+			mapData = new MapData([
+			[0, 2, 2, 0, 0],
+			[1, 5, 2, 0, 0],
+			[0, 1, 0, 2, 2],
+			[0, 0, 1, 5, 2],
+			[0, 0, 0, 1, 0]], index, 30);
+			allMapData.push(mapData);
+			index++;
+			
 			// umut sarikaya
 			mapData = new MapData([
 			[1, 3, 3, 3, 1],
@@ -175,6 +185,26 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
+			// spiral
+			mapData = new MapData([
+			[1, 3, 3, 3, 2],
+			[2, 3, 3, 2, 3],
+			[3, 2, 1, 3, 3],
+			[3, 2, 3, 2, 3],
+			[2, 3, 3, 3, 2]], index, 30);
+			allMapData.push(mapData);
+			index++;
+			
+			// the mall
+			mapData = new MapData([
+			[2, 2, 0, 0, 0],
+			[3, 4, 3, 3, 2],
+			[4, 5, 4, 4, 4],
+			[4, 5, 5, 5, 4],
+			[2, 2, 1, 1, 1]], index, 30);
+			allMapData.push(mapData);
+			index++;
+			
 			// ibo
 			mapData = new MapData([
 			[1, 3, 3, 3, 1],
@@ -182,6 +212,16 @@ package com.rotate.helpers
 			[3, 4, 4, 3, 3],
 			[1, 2, 2, 2, 2],
 			[1, 3, 3, 3, 1]], index, 30);
+			allMapData.push(mapData);
+			index++;
+			
+			// bonzai
+			mapData = new MapData([
+			[1, 2, 2, 2, 0],
+			[1, 3, 3, 4, 2],
+			[2, 5, 2, 1, 1],
+			[0, 2, 2, 0, 0],
+			[1, 3, 4, 1, 0]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
@@ -245,43 +285,33 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
-			// random
+			// jellyfish
 			mapData = new MapData([
-			[2, 2, 2, 2, 0],
-			[3, 3, 2, 2, 1],
-			[3, 4, 3, 3, 4],
-			[3, 3, 2, 2, 1],
-			[1, 1, 1, 1, 0]], index, 30);
+			[1, 2, 0, 1, 2],
+			[2, 5, 4, 4, 2],
+			[3, 4, 4, 4, 0],
+			[1, 4, 3, 4, 2],
+			[1, 2, 1, 3, 2]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
 			// random
 			mapData = new MapData([
-			[0, 1, 4, 1, 1],
-			[1, 3, 2, 1, 3],
-			[2, 4, 2, 1, 3],
-			[4, 2, 3, 2, 4],
-			[2, 3, 2, 2, 2]], index, 30);
+			[1, 1, 1, 2, 1],
+			[4, 5, 2, 3, 0],
+			[2, 2, 1, 4, 1],
+			[0, 1, 2, 4, 2],
+			[0, 1, 2, 4, 2]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
 			// random
 			mapData = new MapData([
-			[0, 0, 1, 2, 1],
-			[0, 2, 5, 4, 1],
-			[2, 4, 2, 4, 2],
-			[2, 3, 4, 5, 2],
-			[0, 0, 1, 1, 1]], index, 30);
-			allMapData.push(mapData);
-			index++;
-			
-			// random
-			mapData = new MapData([
-			[0, 2, 2, 1, 1],
-			[0, 2, 4, 3, 2],
-			[1, 1, 1, 1, 2],
-			[1, 1, 1, 0, 0],
-			[1, 1, 1, 3, 1]], index, 30);
+			[0, 0, 1, 4, 2],
+			[1, 1, 1, 4, 4],
+			[1, 4, 3, 2, 1],
+			[2, 2, 1, 2, 1],
+			[1, 1, 1, 0, 1]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			

@@ -42,7 +42,7 @@ package com.rotate
 			
 			var genButton:Button = new Button("Gen", onGen);
 			genButton.x = 50;
-			genButton.y = playButton.y + 180;;
+			genButton.y = playButton.y + 180;
 			genButton.x = -200;
 			genButton.y = -200;
 			add(genButton);
