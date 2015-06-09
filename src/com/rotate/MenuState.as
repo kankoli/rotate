@@ -42,7 +42,7 @@ package com.rotate
 			
 			var genButton:Button = new Button("Gen", onGen);
 			genButton.x = 50;
-			genButton.y = playButton.y + 180;
+			genButton.y = playButton.y + 180;;
 			genButton.x = -200;
 			genButton.y = -200;
 			add(genButton);
@@ -57,14 +57,12 @@ package com.rotate
 			var star1:FlxSprite = new FlxSprite((FlxG.width + randButton.width) / 2 - 210, playButton.y + 32, Utility.ImgStar);
 			add(star1);
 			
-			var flash:FlashEffect = new FlashEffect(star1);
-			flash.startFlash(Utility.BLOCKCOLOR, 0xFFFFFFFF, 8);
-			add(flash);
-			
 			var star2:FlxSprite = new FlxSprite((FlxG.width + randButton.width) / 2 - 22, playButton.y + 32, Utility.ImgStar);
 			add(star2);
 			
-			flash = new FlashEffect(star2);
+			var flash:FlashEffect = new FlashEffect();
+			flash.addObject(star1);
+			flash.addObject(star2);
 			flash.startFlash(Utility.BLOCKCOLOR, 0xFFFFFFFF, 8);
 			add(flash);
 			

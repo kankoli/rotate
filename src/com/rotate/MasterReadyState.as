@@ -13,7 +13,16 @@ package com.rotate
 		{
 			super.create();
 			
-			var txt:FlxText = new FlxText(0, 330, FlxG.width, "Master run!\n" + Utility.MASTERLEVELCOUNT + " random levels.\n" + Utility.MASTERLEVELTIME.toString() + " seconds for each level.");
+			var txt:FlxText = new FlxText(0, 330, FlxG.width, 
+			"You will have " + Utility.MASTERLEVELTIME+ " seconds for first level and 1 less second for each level you pass. ");
+			txt.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
+			add(txt);
+			
+			txt = new FlxText(0, 11, FlxG.width, "Master run!");
+			txt.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
+			add(txt);
+			
+			txt = new FlxText(0, 135, FlxG.width, Utility.MASTERLEVELCOUNT + " random levels.");
 			txt.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
 			add(txt);
 		}

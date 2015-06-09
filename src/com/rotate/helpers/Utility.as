@@ -14,11 +14,14 @@ package com.rotate.helpers
 		public static var BLOCKSIZE:int = 72;
 		public static var BLOCKHIGHLIGHTOFFSET:int = 6;
 		
-		public static var MAPOFFSETY:int = (480 - 5 * BLOCKSIZE) / 2;
-		public static var MAPOFFSETX:int = 640 - 5 * BLOCKSIZE - ((480 - 5 * BLOCKSIZE) / 2);
+		public static var ROWNUMBER:int = 5;
+		public static var COLNUMBER:int = 5;
 		
-		public static var MASTERLEVELTIME:Number = 20;
-		public static var MASTERLEVELCOUNT:int = 40;
+		public static var MAPOFFSETY:int = (480 - COLNUMBER * BLOCKSIZE) / 2;
+		public static var MAPOFFSETX:int = 640 - ROWNUMBER * BLOCKSIZE - ((480 - COLNUMBER * BLOCKSIZE) / 2);
+		
+		public static var MASTERLEVELTIME:Number = 30;
+		public static var MASTERLEVELCOUNT:int = 20;
 		
 		[Embed(source = "../data/facebook_button.png")] public static var ImgFacebook:Class;
 		[Embed(source = "../data/twitter_button.png")] public static var ImgTwitter:Class;
@@ -29,6 +32,7 @@ package com.rotate.helpers
 		[Embed(source = "../data/efxsprite.png")] public static var ImgEfxSprite:Class;
 		[Embed(source = "../data/whitedot.png")] public static var ImgWhiteDot:Class;
 		
+		[Embed(source = "../data/grid.png")] public static var ImgGrid:Class;
 		[Embed(source = "../data/H.png")] public static var ImgHighlight:Class;
 		[Embed(source = "../data/1.png")] public static var ImgRoad1:Class;
 		[Embed(source = "../data/2C.png")] public static var ImgRoad2C:Class;
@@ -36,7 +40,7 @@ package com.rotate.helpers
 		[Embed(source = "../data/3.png")] public static var ImgRoad3:Class;
 		[Embed(source = "../data/4.png")] public static var ImgRoad4:Class;
 		
-		[Embed(source = "../data/cursor.png")] public static var ImgCursor:Class;
+		[Embed(source = "../data/cursor-gray.png")] public static var ImgCursor:Class;
 		
 		[Embed(source = "../data/button.png")] public static var ImgButton:Class;
 		
@@ -121,7 +125,7 @@ package com.rotate.helpers
 			[0, 3, 0, 3, 0],
 			[0, 2, 4, 2, 0],
 			[0, 0, 3, 0, 0],
-			[0, 1, 4, 1, 0]], index, 30);
+			[0, 1, 4, 1, 0]], index, 116);
 			allMapData.push(mapData);
 			index++;
 			
@@ -155,16 +159,6 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
-			// two fish
-			mapData = new MapData([
-			[0, 2, 2, 0, 0],
-			[1, 5, 2, 0, 0],
-			[0, 1, 0, 2, 2],
-			[0, 0, 1, 5, 2],
-			[0, 0, 0, 1, 0]], index, 30);
-			allMapData.push(mapData);
-			index++;
-			
 			// umut sarikaya
 			mapData = new MapData([
 			[1, 3, 3, 3, 1],
@@ -185,26 +179,6 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
-			// spiral
-			mapData = new MapData([
-			[1, 3, 3, 3, 2],
-			[2, 3, 3, 2, 3],
-			[3, 2, 1, 3, 3],
-			[3, 2, 3, 2, 3],
-			[2, 3, 3, 3, 2]], index, 30);
-			allMapData.push(mapData);
-			index++;
-			
-			// the mall
-			mapData = new MapData([
-			[2, 2, 0, 0, 0],
-			[3, 4, 3, 3, 2],
-			[4, 5, 4, 4, 4],
-			[4, 5, 5, 5, 4],
-			[2, 2, 1, 1, 1]], index, 30);
-			allMapData.push(mapData);
-			index++;
-			
 			// ibo
 			mapData = new MapData([
 			[1, 3, 3, 3, 1],
@@ -212,16 +186,6 @@ package com.rotate.helpers
 			[3, 4, 4, 3, 3],
 			[1, 2, 2, 2, 2],
 			[1, 3, 3, 3, 1]], index, 30);
-			allMapData.push(mapData);
-			index++;
-			
-			// bonzai
-			mapData = new MapData([
-			[1, 2, 2, 2, 0],
-			[1, 3, 3, 4, 2],
-			[2, 5, 2, 1, 1],
-			[0, 2, 2, 0, 0],
-			[1, 3, 4, 1, 0]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
@@ -285,33 +249,43 @@ package com.rotate.helpers
 			allMapData.push(mapData);
 			index++;
 			
-			// jellyfish
+			// random
 			mapData = new MapData([
-			[1, 2, 0, 1, 2],
-			[2, 5, 4, 4, 2],
-			[3, 4, 4, 4, 0],
-			[1, 4, 3, 4, 2],
-			[1, 2, 1, 3, 2]], index, 30);
+			[2, 2, 2, 2, 0],
+			[3, 3, 2, 2, 1],
+			[3, 4, 3, 3, 4],
+			[3, 3, 2, 2, 1],
+			[1, 1, 1, 1, 0]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
 			// random
 			mapData = new MapData([
-			[1, 1, 1, 2, 1],
-			[4, 5, 2, 3, 0],
-			[2, 2, 1, 4, 1],
-			[0, 1, 2, 4, 2],
-			[0, 1, 2, 4, 2]], index, 30);
+			[0, 1, 4, 1, 1],
+			[1, 3, 2, 1, 3],
+			[2, 4, 2, 1, 3],
+			[4, 2, 3, 2, 4],
+			[2, 3, 2, 2, 2]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
 			// random
 			mapData = new MapData([
-			[0, 0, 1, 4, 2],
-			[1, 1, 1, 4, 4],
-			[1, 4, 3, 2, 1],
-			[2, 2, 1, 2, 1],
-			[1, 1, 1, 0, 1]], index, 30);
+			[0, 0, 1, 2, 1],
+			[0, 2, 5, 4, 1],
+			[2, 4, 2, 4, 2],
+			[2, 3, 4, 5, 2],
+			[0, 0, 1, 1, 1]], index, 30);
+			allMapData.push(mapData);
+			index++;
+			
+			// random
+			mapData = new MapData([
+			[0, 2, 2, 1, 1],
+			[0, 2, 4, 3, 2],
+			[1, 1, 1, 1, 2],
+			[1, 1, 1, 0, 0],
+			[1, 1, 1, 3, 1]], index, 30);
 			allMapData.push(mapData);
 			index++;
 			
@@ -325,17 +299,17 @@ package com.rotate.helpers
 		 */
 		public static function randMap():Array {
 			var connectionsMap:Array = [];
-			for (var i:int = 0; i < 5; i++) {
+			for (var i:int = 0; i < ROWNUMBER; i++) {
 				connectionsMap.push([]);
-				for (var j:int = 0; j < 5; j++) {
+				for (var j:int = 0; j < COLNUMBER; j++) {
 					connectionsMap[i].push(new Array(false, false, false, false));
 				}
 			}
 			
 			var fours:Array = [];
-			for (i = 0; i < 5; i++) {
+			for (i = 0; i < ROWNUMBER; i++) {
 				fours.push([]);
-				for (j = 0; j < 4; j++) {
+				for (j = 0; j < COLNUMBER - 1; j++) {
 					if (randBool()) {
 						connectionsMap[i][j][Connection.EAST] = true;
 						connectionsMap[i][j + 1][Connection.WEST] = true;
@@ -344,9 +318,9 @@ package com.rotate.helpers
 			}
 			
 			var fives:Array = [];
-			for (i = 0; i < 4; i++) {
+			for (i = 0; i < ROWNUMBER - 1; i++) {
 				fives.push([]);
-				for (j = 0; j < 5; j++) {
+				for (j = 0; j < COLNUMBER; j++) {
 					if (randBool()) {
 						connectionsMap[i][j][Connection.SOUTH] = true;
 						connectionsMap[i+1][j][Connection.NORTH] = true;	
@@ -356,9 +330,9 @@ package com.rotate.helpers
 			
 			var map:Array = [];
 			var trues:int;
-			for (i = 0; i < 5; i++) {
+			for (i = 0; i < ROWNUMBER; i++) {
 				map.push([]);
-				for (j = 0; j < 5; j++) {
+				for (j = 0; j < COLNUMBER; j++) {
 					trues = 0;
 					for (var k:int = 0; k < 4; k++) {
 						if (connectionsMap[i][j][k])

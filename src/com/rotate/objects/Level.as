@@ -3,6 +3,7 @@ package com.rotate.objects
 	import com.rotate.LevelState;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	
@@ -15,12 +16,10 @@ package com.rotate.objects
 	public class Level extends FlxGroup
 	{	
 		protected var _parent:LevelState;
-		
+		protected var _controller:Controller;
 		protected var _blocks:FlxGroup;
 		
 		public var _levelIsFinished:Boolean;
-		
-		public var _highlight:FlxSprite;
 		
 		public function Level(parent:LevelState, mapData:Array) 
 		{
@@ -30,12 +29,10 @@ package com.rotate.objects
 			generateLevel(mapData);
 			add(_blocks);
 			
-			_highlight = new FlxSprite( -100, -100, Utility.ImgHighlight);
-			_highlight.color = Utility.BUTTONCOLOR;
-			_highlight.visible = true;
-			add(_highlight);
-			
 			initializeUnconnecteds();
+			
+			_controller = new Controller(this);
+			add(_controller);
 			
 			_levelIsFinished = false;
 		}
@@ -193,23 +190,80 @@ package com.rotate.objects
 			_levelIsFinished = !unconnected;
 			if (_levelIsFinished) {
 				_parent.levelIsFinished();
+				_controller._highlight.visible = false;
 			}
+		}
+		
+		public function getBlockFocusedByMouse():Block
+		{
+			for each(var group:FlxGroup in _blocks.members) {
+				for each (var block:Block in group.members) {
+					if (block.overlapsPoint(FlxG.mouse.getWorldPosition()) && block._type != Block.CONN0)
+						return block;
+				}
+			}
+			return null;
+		}
+		
+		public function getRandomBlock():Block
+		{
+			for each(var group:FlxGroup in _blocks.members) {
+				for each (var block:Block in group.members) {
+					if (block._type != Block.CONN0)
+						return block;
+				}
+			}
+			return null;
+		}
+		
+		public function moveFocusUp(row:int, col:int):Block 
+		{
+			var newRow:int = row;
+			do {
+				newRow = (newRow == 0 ? Utility.ROWNUMBER - 1 : newRow - 1);
+			}
+			while (_blocks.members[newRow].members[col]._type == Block.CONN0);
+			
+			return _blocks.members[newRow].members[col];
+		}
+		
+		public function moveFocusDown(row:int, col:int):Block
+		{
+			var newRow:int = row;
+			do {
+				newRow = (newRow == Utility.ROWNUMBER - 1 ? 0 : newRow + 1);
+			}
+			while (_blocks.members[newRow].members[col]._type == Block.CONN0);
+			
+			return _blocks.members[newRow].members[col];
+		}
+		
+		public function moveFocusLeft(row:int, col:int):Block
+		{
+			var newCol:int = col;
+			do {
+				newCol = (newCol == 0 ? Utility.COLNUMBER - 1 : newCol - 1);
+			}
+			while (_blocks.members[row].members[newCol]._type == Block.CONN0);
+			
+			return _blocks.members[row].members[newCol];
+		}
+		
+		public function moveFocusRight(row:int, col:int):Block
+		{
+			var newCol:int = col;
+			do {
+				newCol = (newCol == Utility.COLNUMBER - 1 ? 0 : newCol + 1);
+			}
+			while (_blocks.members[row].members[newCol]._type == Block.CONN0);
+			
+			return _blocks.members[row].members[newCol];
 		}
 		
 		override public function destroy():void 
 		{
 			super.destroy();
 			_blocks = null;
-		}
-		
-		override public function update():void 
-		{
-			_highlight.x = -100;
-			_highlight.y = -100;
-			super.update();
-			if (FlxG.mouse.justPressed() && !_levelIsFinished) {
-				_blocks.callAll("clicked");
-			}
 		}
 	}
 }

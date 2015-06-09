@@ -14,9 +14,6 @@ package com.rotate
 		protected var _mapIndex:int;
 		
 		protected var _timer:Number;
-		private var _gameOverText:FlxText;
-		private var _gameWonText:FlxText;
-		private var _gameWonFlash:FlashEffect;
 		
 		protected var _levelTitle:FlxText;
 		
@@ -27,62 +24,56 @@ package com.rotate
 		private var _last5Text:FlxText;
 		private var _last5Flash:FlashEffect;
 		
-		private var _retryButton:Button;
-		private var _nextLevelButton:Button;
-		
 		private var _totalScoreText:FlxText;
 		protected var _totalScore:int;
 		private var _levelScoreText:FlxText;
 		private var _levelScore:int;
 		private var _scoreTimer:Number;
 		
+		private var _retryHud:FlxGroup;
+		private var _retryButton:Button;
+		private var _gameWonHud:FlxGroup;
+		private var _nextButton:Button;
+		
 		public function MasterPlayState()
 		{
 			_mapData = Utility.randMap();
-			_mapTime = Utility.MASTERLEVELTIME;			
-			_timer = _mapTime;
 			_mapIndex = 0;
+			_mapTime = Utility.MASTERLEVELTIME - _mapIndex;
+			_timer = _mapTime;
 		}
 		
 		override public function create():void 
 		{
-			_last5Text = new FlxText(Utility.MAPOFFSETX - 12, 60, Utility.BLOCKSIZE * 5 + 24, "");
-			_last5Text.setFormat(null, 64, Utility.BLOCKCOLOR, "center");
-			_last5Text.scale.x = 5;
-			_last5Text.scale.y = 5;
-			_last5Text.alpha = 0.99;
-			_last5Text.visible = false;
-			add(_last5Text);
-			
-			_last5Flash = new FlashEffect(_last5Text);
-			add(_last5Flash);
-			
-			_timeText = new FlxText(Utility.MAPOFFSETX - 12, 4, Utility.BLOCKSIZE * 5 + 24, "");
-			_timeText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
-			add(_timeText);
-			
-			_timeFlash = new FlashEffect(_timeText);
-			add(_timeFlash);
-			
 			super.create();
 			
 			_levelTitle = new FlxText(0, 31, 210, "LEVEL\n" + (_mapIndex + 1).toString() + "/" + Utility.MASTERLEVELCOUNT.toString());
 			_levelTitle.setFormat(null, 50, Utility.BLOCKCOLOR, "center");
 			_hud.add(_levelTitle);
 			
-			_gameWonText = new FlxText(0, 161, 210, "Level finished!!!");
-			_gameWonText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
-			_gameWonText.visible = false;
-			_hud.add(_gameWonText);
+			_gameWonHud = new FlxGroup();
+			var gameWonText:FlxText = new FlxText(0, 161, 210, "Level finished!!!");
+			gameWonText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
+			_gameWonHud.add(gameWonText);
 			
-			_gameWonFlash = new FlashEffect(_gameWonText);
-			_hud.add(_gameWonFlash);
+			var enterKeyText:FlxText = new FlxText(Utility.MAPOFFSETX - 12, 405, Utility.BLOCKSIZE * 5 + 24, "press ENTER key to continue!..");
+			enterKeyText.setFormat(null, 12, Utility.BLOCKCOLOR, "center");
+			_gameWonHud.add(enterKeyText);
 			
-			_nextLevelButton = new Button("Next", onNext);
-			_nextLevelButton.x = Utility.BUTTONOFFSETX;
-			_nextLevelButton.y = 245;
-			_nextLevelButton.visible = false;
-			_hud.add(_nextLevelButton);
+			var gameWonFlash:FlashEffect = new FlashEffect();
+			gameWonFlash.addObject(gameWonText);
+			gameWonFlash.addObject(enterKeyText);
+			gameWonFlash.startFlash(Utility.BLOCKCOLOR, Utility.BUTTONCOLOR, 20);
+			_gameWonHud.add(gameWonFlash);
+			
+			_nextButton = new Button("Next", onNext);
+			_nextButton.x = Utility.BUTTONOFFSETX;
+			_nextButton.y = 245;
+			_nextButton.visible = false;
+			_gameWonHud.add(_nextButton);
+			
+			_gameWonHud.visible = false;
+			_hud.add(_gameWonHud);
 			
 			_totalScore = 0;
 			_levelScore = _mapTime * 10;
@@ -91,8 +82,6 @@ package com.rotate
 			_totalScoreText = new FlxText(0, 309, 210, "Score:\n" + _totalScore.toString());
 			_totalScoreText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
 			_hud.add(_totalScoreText);
-			
-			
 			
 			_timerBars = new FlxGroup(4);
 			
@@ -122,20 +111,44 @@ package com.rotate
 			
 			_hud.add(_timerBars);
 			
-			_gameOverText = new FlxText(Utility.MAPOFFSETX - 12, Utility.MAPOFFSETY + 5 * Utility.BLOCKSIZE / 2 - 60, Utility.BLOCKSIZE * 5 + 24, "Out of time...\nLost 100 points...!");
-			_gameOverText.setFormat(null, 36, Utility.BLOCKCOLOR, "center");
-			_gameOverText.visible = false;
-			_hud.add(_gameOverText);
+			_retryHud = new FlxGroup();
+			var gameOverText:FlxText = new FlxText(Utility.MAPOFFSETX - 12, Utility.MAPOFFSETY + 5 * Utility.BLOCKSIZE / 2 - 60, Utility.BLOCKSIZE * 5 + 24, "Out of time...\nLost 100 points...!");
+			gameOverText.setFormat(null, 36, Utility.BLOCKCOLOR, "center");
+			_retryHud.add(gameOverText);
+			
+			var retryText:FlxText = new FlxText(Utility.MAPOFFSETX - 12, Utility.MAPOFFSETY + 5 * Utility.BLOCKSIZE / 2 + 80 - 20, Utility.BLOCKSIZE * 5 + 24, "press ENTER key to...");
+			retryText.setFormat(null, 12, Utility.BLOCKCOLOR, "center");
+			_retryHud.add(retryText);
 			
 			_retryButton = new Button("Retry", onRetry);
 			_retryButton.x = Utility.MAPOFFSETX + 5 * Utility.BLOCKSIZE / 2 - _retryButton.width / 2;
 			_retryButton.y = Utility.MAPOFFSETY + 5 * Utility.BLOCKSIZE / 2 + 80;
 			_retryButton.visible = false;
-			_hud.add(_retryButton);
+			_retryHud.add(_retryButton);
+			_retryHud.visible = false;
+			_hud.add(_retryHud);
 			
 			_levelScoreText = new FlxText(Utility.MAPOFFSETX - 12, 440, Utility.BLOCKSIZE * 5 + 24, _levelScore.toString());
 			_levelScoreText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
 			_hud.add(_levelScoreText);
+			
+			_last5Text = new FlxText(Utility.MAPOFFSETX - 12, 60, Utility.BLOCKSIZE * 5 + 24, "");
+			_last5Text.setFormat(null, 64, Utility.BLOCKCOLOR, "center");
+			_last5Text.scale.x = 5;
+			_last5Text.scale.y = 5;
+			_last5Text.alpha = 0.65;
+			_last5Text.visible = false;
+			add(_last5Text);
+			
+			_last5Flash = new FlashEffect(_last5Text);
+			add(_last5Flash);
+			
+			_timeText = new FlxText(Utility.MAPOFFSETX - 12, 4, Utility.BLOCKSIZE * 5 + 24, "");
+			_timeText.setFormat(null, 30, Utility.BLOCKCOLOR, "center");
+			add(_timeText);
+			
+			_timeFlash = new FlashEffect(_timeText);
+			add(_timeFlash);
 		}
 		
 		public function onRetry():void 
@@ -150,6 +163,7 @@ package com.rotate
 		public function onNext():void
 		{
 			_mapIndex++;
+			_mapTime = Utility.MASTERLEVELTIME - _mapIndex;
 			if (_mapIndex == Utility.MASTERLEVELCOUNT) {
 				var b:Boolean = ProgressHandler.gotMasterPlayScore(_totalScore);
 				FlxG.fade(Utility.FADECOLOR, Utility.FADEDURATION, function():void { FlxG.switchState(new FinishedMasterState(_totalScore, b)); } );
@@ -178,13 +192,12 @@ package com.rotate
 			_timeFlash.stopFlash();
 			
 			_levelFrame.color = Utility.LEVELFRAMECOLOR;
+			_retryHud.visible = false;
 			_retryButton.visible = false;
-			_nextLevelButton.visible = false;
-			_gameOverText.visible = false;
+			_gameWonHud.visible = false;
+			_nextButton.visible = false;
 			
 			_efxSprite.resetEfx();
-			_gameWonFlash.stopFlash();
-			_gameWonText.visible = false;
 			
 			_scoreTimer = 0;
 			_levelScore = _mapTime * 10;
@@ -218,7 +231,7 @@ package com.rotate
 				if (_timer < 0) {
 					_efxSprite.fade(Utility.FADEDURATION);
 					_timer = 0;
-					_gameOverText.visible = true;
+					_retryHud.visible = true;
 					_retryButton.visible = true;
 					_level._levelIsFinished = true;
 				}
@@ -231,6 +244,16 @@ package com.rotate
 						_levelScore = 0;
 					_levelScoreText.text = _levelScore.toString();
 					_scoreTimer = 0;
+				}
+			}
+			else // level is finished (win or lose)
+			{
+				if (FlxG.keys.justPressed("ENTER"))
+				{
+					if (_gameWonHud.visible)
+						onNext();
+					else if (_retryHud.visible)
+						onRetry();
 				}
 			}
 		}
@@ -249,10 +272,9 @@ package com.rotate
 		{
 			super.levelIsFinished();
 			_timer = 0;
-			_gameWonText.visible = true;
-			_gameWonFlash.startFlash(Utility.BLOCKCOLOR, Utility.BUTTONCOLOR, 20);
+			_gameWonHud.visible = true;
+			_nextButton.visible = true;
 			_levelFrame.color = Utility.BLOCKCOLOR;
-			_nextLevelButton.visible = true;
 			_timeFlash.stopFlash();
 			_timeText.color = Utility.BLOCKCOLOR;
 			

@@ -12,6 +12,7 @@ package com.rotate
 		protected var _level:Level;
 		protected var _hud:FlxGroup;
 		protected var _levelFrame:FlxSprite;
+		protected var _levelGrid:FlxSprite;
 		protected var _efxSprite:EfxSprite;
 		protected var _menuButton:Button;
 		
@@ -22,6 +23,10 @@ package com.rotate
 		
 		override public function create():void
 		{
+			_levelGrid = new FlxSprite(Utility.MAPOFFSETX, Utility.MAPOFFSETY, Utility.ImgGrid);
+			_levelGrid.color = Utility.LEVELFRAMECOLOR;
+			add(_levelGrid);
+			
 			if (_mapData != null) {
 				_level = new Level(this, _mapData);
 				add(_level);
@@ -48,7 +53,7 @@ package com.rotate
 		
 		public function levelIsFinished():void
 		{
-			_level._highlight.visible = false;
+			
 		}
 		
 		public function blockClicked(block:Block):void

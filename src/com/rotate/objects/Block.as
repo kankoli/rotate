@@ -29,8 +29,6 @@ package com.rotate.objects
 		public var _type:int;
 		private var _rotation:int;
 		
-		private var _mouseHovering:Boolean;
-		
 		public function Block(parent:Level, X:int, Y:int, row:int, col:int, Type:int, Rotation:int) 
 		{
 			super(X, Y);
@@ -56,8 +54,6 @@ package com.rotate.objects
 			_unconnectedImgs.push(link);
 			
 			this._rect = new FlxRect(X, Y, Utility.BLOCKSIZE, Utility.BLOCKSIZE);
-			
-			this._mouseHovering = false;
 			
 			this._type = Type;
 			this._rotation = 0;
@@ -114,20 +110,23 @@ package com.rotate.objects
 		
 		public function clicked():void
 		{
-			if (_mouseHovering) {
-				rotate();
-				_parent.blockIsClicked(_row, _col);
-			}
+			rotate();
+			_parent.blockIsClicked(_row, _col);
+		}
+		
+		public function getRow():int
+		{
+			return _row;
+		}
+		
+		public function getCol():int
+		{
+			return _col;
 		}
 		
 		override public function update():void 
 		{
 			super.update();
-			_mouseHovering = Utility.pointInFlxRect(FlxG.mouse.getWorldPosition(), this._rect);
-			if (_mouseHovering) {
-				_parent._highlight.x = this.x - Utility.BLOCKHIGHLIGHTOFFSET;
-				_parent._highlight.y = this.y - Utility.BLOCKHIGHLIGHTOFFSET;
-			}
 		}
 		
 		override public function draw():void 
